@@ -1,22 +1,46 @@
 <template>
-  <q-page padding>
-    <div>First Page</div>
-
-    <div v-for="p in products" :key="p.id">
+  <q-page padding style="width: 600px;">
+    <div>Pos Page</div>
+    <div class="row fullscreen">
+      <div class="col-6">
+        <div class="row">
+      <div v-for="p in products" :key="p.id" class="col-4">
       <ProductCard :product="p" @select="select"></ProductCard>
     </div>
-    <CounterComponent :num="2" @update="(num: number)=>{
-      console.log('Update counter 1: ' + num)
-    }"></CounterComponent>
-    <CounterComponent :num="4" @update="update2"></CounterComponent>
+   </div>
+      </div>
+      <div class="col-6"><table>
+    <thead>
+      <th>id</th>
+      <th>name</th>
+      <th>price</th>
+      <th>amount</th>
+    </thead>
+    <tbody>
+      <tr v-for="item in productItems" :key="item.id">
+        <td>{{ item.id }}</td>
+        <td>{{ item.product.name }}</td>
+        <td>{{ item.product.price }}</td>
+        <td>{{ item.amount }}</td>
+      </tr>
+    </tbody>
+   </table></div>
+    </div>
+    
+   
   </q-page>
 </template>
 
 <script setup lang="ts">
-import CounterComponent from 'src/components/CounterComponent.vue';
 import ProductCard from 'src/components/ProductCard.vue';
 import type{ Product } from 'src/models';
 import { ref } from 'vue';
+interface ProductItem {
+  id: number
+  product: Product
+  amount: number
+}
+let lastProductItemId = 1
 const products = ref<Product[]>([
   {
   id: 1,
@@ -75,11 +99,9 @@ const products = ref<Product[]>([
   size: 'ML',
 },
 ])
-
-function update2(num: number){
-  console.log('Update counter 2: ' + num)
-}
+const productItems = ref<ProductItem[]>([])
 function select(product: Product){
   console.log(product)
+  productItems.value.push({id:lastProductItemId++, product:product, amount:1})
 }
 </script>

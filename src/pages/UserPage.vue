@@ -1,5 +1,37 @@
 <template>
   <q-page padding>
+    <q-form
+      @submit="onSubmit"
+      @reset="onReset"
+      class="q-gutter-md"
+    >
+      <q-input
+        filled
+        v-model="name"
+        label="Your name *"
+        hint="Name and surname"
+        lazy-rules
+        :rules="[ val => val && val.length > 0 || 'Please type something']"
+      />
+
+      <q-input
+        filled
+        type="password"
+        v-model="password"
+        label="Your Password *"
+        lazy-rules
+        :rules="[
+          val => val !== null && val !== '' || 'Please type your age',
+        ]"
+      />
+
+
+      <div>
+        <q-btn label="Submit" type="submit" color="primary"/>
+        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+      </div>
+    </q-form>
+
     <q-table :columns="columns" :rows="users"></q-table>
   </q-page>
 </template>
@@ -7,7 +39,7 @@
 <script setup lang="ts">
 import type{ User } from 'src/models';
 import { ref } from 'vue';
-import type{ QTableColumn } from 'quasar';
+import{ type QTableColumn } from 'quasar';
 
 const columns:QTableColumn[] = [
   {
@@ -43,5 +75,18 @@ const users = ref<User[]>([
     password: 'Pass@1234'
   }
 ])
-// let lastUserId = 3
+
+const name = ref('')
+const password = ref('')
+let lastUserId = 3
+
+function onSubmit () {
+  users.value.push({id: lastUserId++, email:name.value, password: password.value})
+  onReset()
+}
+
+function onReset () {
+  name.value = ''
+  password.value = ''
+}
 </script>

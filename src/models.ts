@@ -5,3 +5,9 @@ export interface Product {
     size: string //S M L
     image: string
   }
+
+export interface User {
+    id: number
+    email: string
+    password: string
+}

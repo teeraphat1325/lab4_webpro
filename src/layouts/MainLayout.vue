@@ -63,6 +63,12 @@ const linksList: EssentialLinkProps[] = [
     link: 'pos'
   },
   {
+    title: 'User',
+    caption: 'User Management',
+    icon: 'user',
+    link: 'user-page'
+  },
+  {
     title: 'Discord Chat Channel',
     caption: 'chat.quasar.dev',
     icon: 'chat',
